@@ -27,14 +27,29 @@ MNG_SRCS		=	$(MNG_SRCS_DIR)/binfiletest.cpp \
 					$(MNG_SRCS_DIR)/trigger2.cpp \
 					$(MNG_SRCS_DIR)/xaction_api.cpp
 MNG_OBJS		=	$(MNG_SRCS:.cpp=.o)
-#MNG_LIBS =
+#MNG_LIBS =		
 
-#.PHONY:		all manager
+CLT_EXEC		=	cc_client
+CLT_SRCS_DIR	=	client
+CLT_HDRS		=	$(CLT_SRCS_DIR)/xaction_api.h
+			
+CLT_SRCS		=	$(CLT_SRCS_DIR)/client_final.cpp \
+					$(CLT_SRCS_DIR)/client.cpp \
+					$(CLT_SRCS_DIR)/xaction_api.cpp
+CLT_OBJS		=	$(CLT_SRCS:.cpp=.o)
+#CLT_LIBS =
 
-all:		$(MNG_EXEC)
+#.PHONY:		all manager client
+
+all:		$(MNG_EXEC) \
+			$(CLT_EXEC)
 
 $(MNG_EXEC): $(MNG_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+	
+$(CLT_EXEC): $(CLT_OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
 	rm -f $(MNG_SRCS_DIR)/*.o cc_manager
+	rm -f $(CLT_SRCS_DIR)/*.o cc_client
